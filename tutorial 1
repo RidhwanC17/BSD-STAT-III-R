@@ -1,0 +1,48 @@
+#SLR
+# B0 = intercept term avg response when x is 0
+# B1 = change in response for perpendicular unit increse in predictor
+
+#MLR
+# B0 = same definition as before 
+# Bj = change in response (Y) for 1 unit change in Xj,keeping other predictors const.
+library(ISLR)
+library(ggplot2)
+View(Auto)
+colnames(Auto)
+fit = lm(Auto$acceleration ~ Auto$weight + Auto$horsepower)
+summary(fit)
+plot(Auto$weight, Auto$acceleration)
+
+fit2 = lm(Auto$acceleration ~ Auto$weight)
+summary(fit2)
+cor(Auto$weight, Auto$acceleration)
+
+fit2$coefficients
+
+ggplot(Auto, aes(x = weight, y = acceleration, col = horsepower)) + geom_point()+
+  scale_color_gradientn(colors = rainbow(50))
+#fixing the hp bw 70 and 90
+
+ind = which(Auto$horsepower >= 50 & Auto$horsepower <= 60)
+plot(Auto$weight[ind], Auto$acceleration[ind])
+
+#model 1
+#regress acc on horsepower 
+
+ml = lm(Auto$acceleration ~ Auto$horsepower)
+
+ml$residuals
+
+#model 2 
+#regress acc 
+
+m2 = lm(Auto$weight ~ Auto$horsepower)
+m2$residuals
+
+#model 3 
+
+m3 = lm(m1$residuals~ m2$residuals)
+m3$coefficients
+
+fit = lm(Auto$acceleration ~ Auto$weight + Auto$horsepower)
+fits$coefficients
